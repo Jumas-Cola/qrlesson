@@ -1,0 +1,70 @@
+{% extends "base_generic.html" %}
+
+{% load static %}
+
+{% block optional_css %}
+{% endblock %}
+
+{% block optional_js %}
+<script type="text/javascript">
+  $(".album.bg-light").removeClass("bg-light");
+</script>
+<script type="text/javascript" src="{% static 'js/qrcode.js' %}"></script>
+<script type="text/javascript">
+  var qrcode = new QRCode(document.getElementById("qrcode"), {});
+  var save_btn = document.querySelector("#save_btn");
+
+  save_btn.addEventListener("click", saveBase64AsFile);
+
+  function makeCode() {
+    var elText = document.getElementById("text");
+
+    if (!elText.value) {
+      return;
+    }
+
+    qrcode.makeCode(elText.value);
+  }
+
+  function saveBase64AsFile() {
+    var qr_img = document.querySelector("#qrcode img");
+    var link = document.createElement("a");
+    var fileName = "qr_code.png";
+    var base64 = qr_img.src;
+
+    link.setAttribute("href", base64);
+    link.setAttribute("download", fileName);
+    link.click();
+  }
+
+  makeCode();
+
+  $("#text").
+  on("blur", function() {
+    makeCode();
+  }).
+  on("keydown", function(e) {
+    if (e.keyCode == 13) {
+      makeCode();
+    }
+  });
+</script>
+{% endblock %}
+
+
+{% block content%}
+<div class="container mt-5">
+  <form>
+    <div class="form-group">
+      <label for="text">Сгенерировать QR-код</label>
+      <input type="text" class="form-control" id="text" aria-describedby="textHelp" maxlength="1056" value="Sample Text">
+      <small id="emailHelp" class="form-text text-muted">Введите текст, который хотите закодировать.</small>
+    </div>
+    <button type="button" class="btn btn-primary">Создать QR-код</button>
+    <button type="button" id="save_btn" class="btn btn-secondary">Скачать</button>
+  </form>
+  <div class="row">
+    <div id="qrcode" class="col-12 mt-3 mb-3 d-flex justify-content-center"></div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base_generic.html" %}
+
+{% block content%}
+
+<div class="container py-5" id="lesson_list">
+  <h2>План урока</h2>
+  <ul class="js-sortable sortable list flex flex-column list-reset list-unstyled">
+
+    {% if chosen_methods %}
+
+    {% for method in chosen_methods %}
+
+    <li class="card mb-1">
+      <div class="card-body p-2" id="{{ method.id }}">
+        <h5 class="card-title">{{ method.title }}</h5>
+        <p class="card-text">{{ method.get_preview }}...</p>
+        <section class="method_id" hidden="true">{{ method.id }}</section>
+        <div class="btn-group">
+          <a href="{% url 'method_detail' method.id %}?next={{ request.path }}" class="btn btn-sm btn-outline-secondary card-link">Подробнее</a>
+          <button onclick="remove_method('{{ method.id }}')" class="btn btn-sm btn-secondary card-link">Удалить из списка</button>
+        </div>
+      </div>
+    </li>
+
+    {% endfor %}
+
+  </ul>
+  <section class="d-flex justify-content-end">
+    <button id="save_btn" class="btn btn-secondary" onclick="download()">Скачать</button>
+    <form id="ids_list" action="{% url 'download' %}" method="post" target="_blank">
+      {% csrf_token %}
+      <input id="ids" type="hidden" name="ids" value="">
+    </form>
+  </section>
+
+  <form id="remove_ids_list" action="{% url 'rmv_from_session' %}" method="post">
+    {% csrf_token %}
+    <input id="remove_ids" type="hidden" name="ids" value="">
+    <input id="remove_method" type="hidden" name="method" value="">
+  </form>
+
+  {% else %}
+
+  <p>Нет выбранных методов</p>
+
+  {% endif %}
+</div>
+
+{% endblock %}
+
+{% load static %}
+{% block optional_js %}
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+<script type="text/javascript" src="{% static 'js/html5sortable.js' %}"></script>
+<script type="text/javascript">
+  sortable('.js-sortable', {
+    forcePlaceholderSize: true,
+    placeholderClass: 'mb1 border',
+    hoverClass: '',
+    itemSerializer: function(item, container) {
+      item.parent = '[parentNode]'
+      item.node = '[Node]'
+      item.html = item.html.replace('<', '&lt;')
+      return item
+    },
+    containerSerializer: function(container) {
+      container.node = '[Node]'
+      return container
+    }
+  })
+</script>
+<!-- <script type="text/javascript">
+  let items = document.querySelectorAll(".card-text");
+  items.forEach(function(item) {
+    item.innerHTML = item.innerText;
+  });
+</script> -->
+<script type="text/javascript" src="{% static 'js/download.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/remove_method.js' %}"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    $(".card").hover(
+      function() {
+        $(this).addClass('shadow-lg').css('cursor', 'pointer');
+      },
+      function() {
+        $(this).removeClass('shadow-lg');
+      }
+    );
+
+  });
+</script>
+{% endblock %}

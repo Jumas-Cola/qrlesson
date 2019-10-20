@@ -1,0 +1,51 @@
+{% extends "base_generic.html" %}
+
+{% block content%}
+<div class="container py-5">
+
+  <div class="row">
+    {% for object in object_list %}
+
+    <div class="col-md-6 col-lg-4">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ object.title }}</h5>
+          <p class="card-text">{{ object.get_preview }}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <a href="{{ object.get_absolute_url }}?next={{ request.path }}" class="btn btn-sm btn-outline-secondary">Подробнее</a>
+              <a href="{% url 'upd_session' object.id %}?next={{ request.path }}" class="btn btn-sm btn-secondary">Добавить к уроку</a>
+            </div>
+            <small class="text-muted">{{ object.get_reading_time }} mins</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block optional_js %}
+<!-- <script type="text/javascript">
+  let items = document.querySelectorAll(".card-text");
+  items.forEach(function(item) {
+    item.innerHTML = item.innerText;
+  });
+</script> -->
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    $(".card").hover(
+      function() {
+        $(this).addClass('shadow-lg').css('cursor', 'pointer');
+      },
+      function() {
+        $(this).removeClass('shadow-lg');
+      }
+    );
+
+  });
+</script>
+{% endblock %}
