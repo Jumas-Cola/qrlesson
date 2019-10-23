@@ -1,0 +1,131 @@
+{% extends "base_generic.html" %}
+
+{% load static %}
+
+{% block optional_css %}
+<style>
+  table {
+    margin: 10px;
+  }
+
+  td:after {
+    content: '';
+    display: block;
+    margin-top: 100%;
+  }
+
+  td {
+    /* position: absolute; */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid;
+    border-color: rgb(212, 212, 212);
+  }
+
+  td.active {
+    background: black;
+    border: none;
+  }
+</style>
+{% endblock %}
+
+{% block optional_js %}
+<script type="text/javascript">
+  $(".album.bg-light").removeClass("bg-light");
+</script>
+
+<script>
+  function populateTable(table, rows, cells) {
+    if (!table) table = document.createElement('table');
+    for (var i = 0; i < rows; ++i) {
+      var row = document.createElement('tr');
+      for (var j = 0; j < cells; ++j) {
+        row.appendChild(document.createElement('td'));
+        if ((([0, 6, cells - 7, cells - 1].includes(i) && (j < 7 || j > cells - 7)) || ((i < 7 || i > rows - 7) && [0, 6, rows - 7, rows - 1].includes(j))) && (!(i > 7 && j > 7))) {
+          row.cells[j].style.background = 'black';
+          row.cells[j].style.border = 'none';
+        }
+        if ((1 < i && i < 5 && 1 < j && j < 5) || (rows - 6 < i && i < rows - 2 && 1 < j && j < 5) || (cells - 6 < j && j < cells - 2 && 1 < i && i < 5)) {
+          row.cells[j].style.background = 'black';
+          row.cells[j].style.border = 'none';
+        }
+      }
+      table.appendChild(row);
+    }
+    return table;
+  }
+
+  var table = document.getElementById('tablearea');
+  var tableEntry = table.getElementsByTagName('td');
+  var isToggling = false;
+
+  function enableToggle(e) {
+    isToggling = true;
+
+    if (e.target !== table) {
+      toggle(e);
+    }
+  }
+
+  function disableToggle() {
+    isToggling = false;
+  }
+
+  function toggle(e) {
+    if (isToggling === false) {
+      return;
+    }
+
+    e.target.classList.toggle('active');
+  }
+
+  function startGame() {
+    table.onmousedown = enableToggle;
+
+    for (var i = 0, il = tableEntry.length; i < il; i++) {
+      tableEntry[i].onmouseenter = toggle; //changes color
+    }
+
+    table.onmouseup = disableToggle;
+  }
+
+  function plotField() {
+    let dim = document.querySelector('#dim_field');
+    let tablearea = document.getElementById('tablearea');
+    tablearea.innerHTML = '';
+    populateTable(tablearea, dim.value, dim.value);
+    startGame();
+  }
+
+
+  var plot_field_btn = document.querySelector('#plot_field_btn');
+  plot_field_btn.addEventListener("click", plotField, false);
+
+  let dim = document.querySelector('#dim_field');
+  populateTable(tablearea, dim.value, dim.value);
+  startGame();
+</script>
+
+{% endblock %}
+
+
+{% block content%}
+<div class="container mt-5">
+  <form>
+    <div class="form-group">
+      <label for="text">Нарисовать QR-код</label>
+      <input type="number" class="form-control" id="dim_field" aria-describedby="textHelp" min="21" max="41" value="21">
+      <small id="emailHelp" class="form-text text-muted">Введите размер поля.</small>
+    </div>
+    <button id="plot_field_btn" type="button" class="btn btn-primary">Построить поле</button>
+  </form>
+  <div class="row">
+    <div id="qrcode" class="col-12 mt-3 mb-3 d-flex justify-content-center">
+      <table id="tablearea" cellspacing="0" cellpadding="0" class="col-md-6"></table>
+    </div>
+  </div>
+</div>
+{% endblock %}

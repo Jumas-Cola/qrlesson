@@ -32,6 +32,17 @@ def about(request):
     )
 
 
+def qr_table(request):
+
+    return render(
+        request,
+        'qr_table.html',
+        context={
+            'section_list': LessonPart.objects.all(),
+        },
+    )
+
+
 def qr_generator(request):
 
     return render(

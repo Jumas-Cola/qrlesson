@@ -32,8 +32,9 @@
             <ul class="list-unstyled">
               <li><a href="{% url 'index' %}" class="text-white">Главная</a></li>
               <li><a href="{% url 'about' %}" class="text-white">Принцип работы</a></li>
-              <li><a href="{% url 'chosen_methods' %}" class="text-white">Выбранные фрагменты</a></li>
               <li><a href="{% url 'qr_generator' %}" class="text-white">Генератор QR-кодов</a></li>
+              <li><a href="{% url 'qr_table' %}" class="text-white">Рисование QR-кодов</a></li>
+              <li><a href="{% url 'chosen_methods' %}" class="text-white">Выбранные фрагменты</a></li>
               <hr>
               {% for section in section_list %}
               <li><a href="{{ section.get_absolute_url }}" class="text-white font-weight-bold">{{ section.name }}</a></li>
