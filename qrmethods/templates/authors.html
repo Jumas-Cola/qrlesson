@@ -1,0 +1,30 @@
+{% extends "base_generic.html" %}
+
+{% load static %}
+
+{% block optional_css %}
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+{% endblock %}
+
+{% block optional_js %}
+<script type="text/javascript">
+  $(".album.bg-light").removeClass("bg-light");
+</script>
+{% endblock %}
+
+
+{% block content%}
+<div class="container mt-5">
+  <h1>Авторы:</h1>
+  <div class="">
+    Группа ИНФ-18 ГГТУ
+  </div>
+  <ul>
+    <li>Муханов Д.А.</li>
+    <li>Чернова А.Д.</li>
+    <li>Никишин И.С.</li>
+    <li>Мамаева К.В.</li>
+    <li>Мешков А.Ю.</li>
+  </ul>
+</div>
+{% endblock %}

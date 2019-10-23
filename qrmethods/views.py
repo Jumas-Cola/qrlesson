@@ -32,6 +32,17 @@ def about(request):
     )
 
 
+def authors(request):
+
+    return render(
+        request,
+        'authors.html',
+        context={
+            'section_list': LessonPart.objects.all(),
+        },
+    )
+
+
 def qr_table(request):
 
     return render(

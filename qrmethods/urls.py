@@ -12,6 +12,7 @@ urlpatterns = [
     path('chosen_methods/', views.chosen_methods, name='chosen_methods'),
     path('qr_generator/', views.qr_generator, name='qr_generator'),
     path('qr_table/', views.qr_table, name='qr_table'),
+    path('authors/', views.authors, name='authors'),
     path('download/', views.download, name='download'),
     url(r'^upd_session/(?P<pk>[-\w]+)$', views.upd_session, name='upd_session'),
     url(r'^rmv_from_session/$', views.rmv_from_session, name='rmv_from_session'),

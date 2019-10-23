@@ -35,6 +35,7 @@
               <li><a href="{% url 'qr_generator' %}" class="text-white">Генератор QR-кодов</a></li>
               <li><a href="{% url 'qr_table' %}" class="text-white">Рисование QR-кодов</a></li>
               <li><a href="{% url 'chosen_methods' %}" class="text-white">Выбранные фрагменты</a></li>
+              <li><a href="{% url 'authors' %}" class="text-white">Авторы</a></li>
               <hr>
               {% for section in section_list %}
               <li><a href="{{ section.get_absolute_url }}" class="text-white font-weight-bold">{{ section.name }}</a></li>
@@ -82,7 +83,7 @@
   <footer class="text-muted">
     <div class="container">
       <p class="float-right">
-        <a href="#">Back to top</a>
+        <a href="#">Наверх</a>
       </p>
       <p>QRLesson - это сервис, в котором собраны методики</p>
       <p>преподавания с использованием QR технологий.</p>
