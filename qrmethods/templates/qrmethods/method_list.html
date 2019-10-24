@@ -3,6 +3,11 @@
 {% block content%}
 <div class="container py-5">
 
+  <div class="mb-4">
+    <h1>{{ section.name }}</h1>
+    <p>{{ section.description }}</p>
+  </div>
+
   <div class="row">
     {% for object in object_list %}
 

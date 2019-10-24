@@ -14,8 +14,9 @@ urlpatterns = [
     path('qr_table/', views.qr_table, name='qr_table'),
     path('authors/', views.authors, name='authors'),
     path('download/', views.download, name='download'),
+    url(r'^favicon\.ico$', RedirectView.as_view(url='/static/img/favicon.ico', permanent=True)),
     url(r'^upd_session/(?P<pk>[-\w]+)$', views.upd_session, name='upd_session'),
     url(r'^rmv_from_session/$', views.rmv_from_session, name='rmv_from_session'),
     url(r'^method/(?P<pk>[-\w]+)$', views.MethodDetailView.as_view(), name='method_detail'),
-    url(r'^(?P<section>[\w]*)$', views.MethodListView.as_view(), name='method_list'),
+    url(r'^(?P<section>[\w]*)/$', views.MethodListView.as_view(), name='method_list'),
 ]

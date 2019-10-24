@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block optional_css %}
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.0.4/dist/aos.css" rel="stylesheet">
 {% endblock %}
 
 {% block optional_js %}
@@ -13,7 +13,7 @@
   $("h2").addClass("mt-4 mb-3");
   $(".row.featurette img").addClass("mt-2 mb-2");
 </script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://unpkg.com/aos@2.0.4/dist/aos.js"></script>
 <script type="text/javascript">
   AOS.init({
     disable: 'mobile'
@@ -65,458 +65,452 @@
   </div>
 </div>
 
-<div class="container mt-5">
-  <article class="post post_full" id="post_127197" lang="ru">
-    <div class="post__wrapper">
-      <h1 class="post__title post__title_full">
-        <span class="post__title-text">Читаем QR код</span>
-      </h1>
+<div class="container mt-5 post__text">
 
-      <div class="post__text" id="post-content-body">
+  <h1 class="post__title post__title_full">
+    <span class="post__title-text">Читаем QR код</span>
+  </h1>
 
-        <div class="row featurette">
-          <div class="col-md-7 order-md-2" data-aos="fade-left">
-            <p class="lead">
-              Иногда возникают такие ситуации, когда нужно прочитать QR
-              код, а смартфона под рукой нет. Что же делать? В голову приходит лишь попробовать прочитать вручную. Если кто-нибудь сталкивался с такими ситуациями или кому просто интересно как же читается QR код машинами, то данная статья поможет вам
-              разобраться в этой проблеме. <br>
-              <br>
-              В статье рассмотрены базовые особенности QR кодов и методика дешифрирования информации без использования вычислительных машин.<br>
-            </p>
-          </div>
-          <div class="col-md-5" data-aos="fade-right">
-            <img src="https://habrastorage.org/storage1/82ec194d/82c86917/c2d44992/6a420214.png">
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-right">
-            <p class="lead">
-              Для тех, кто не в курсе что такое <a href="http://www.denso-wave.com/qrcode/index-e.html" title="Официальный сайт">QR код</a>, есть <a href="http://en.wikipedia.org/wiki/QR_code" title="Статья о QR коде">неплохая статья</a> в английской
-              Wikipedia. Также можно почитать <a href="http://habrahabr.ru/blogs/infolust/" title="Блок INFOLUST [Хабрахабр]">тематический блог</a> на Хабре и несколько хороших статей по смежной тематике, которые можно найти <a
-                href="http://habrahabr.ru/search/page4/?q=QR+%D0%BA%D0%BE%D0%B4" title="Искать статьи о QR коде">поиском</a>.
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              Решение задачи непосредственного чтения информации с QR-картинки рассмотрим на примере двух кодов. Информация была закодирована в online-генераторе <a href="http://www.qrcoder.ru/">QR Coder.ru</a>.<br>
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="text-center col-12" data-aos="zoom-in">
-            <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/abaf33ae/39f8bd1e/3d3a8167/03f8ac1a.png">
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              Чтобы понять, как извлечь данные из кода, нужно разобраться в алгоритме. Существует несколько стандартов в семействе QR кодов, с их базовыми принципами можно ознакомиться в спецификациях. Кратко поясню: данные, которые необходимо
-              закодировать, разбиваются на блоки в зависимости от режима кодирования. К разбитым по блокам данным прибавляется заголовок, указывающий на режим и количество блоков. Существуют и такие режимы, в которых используется более сложная
-              структура
-              размещения информации. Данные режимы рассматривать не будем ввиду того, что извлекать вручную из них информацию нецелесообразно. Однако, основываясь на тех принципах, которые описаны ниже, можно адаптироваться и к этим режимам.
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              На случай некорректного чтения данных, в QR применяются специальные коды, которые способны исправить недочёты при чтении. Это так называемые <a
-                href="http://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D0%B4_%D0%A0%D0%B8%D0%B4%D0%B0_%E2%80%94_%D0%A1%D0%BE%D0%BB%D0%BE%D0%BC%D0%BE%D0%BD%D0%B0" title="О кодах Рида-Соломона на Wikipedia">коды Рида-Соломона</a>. Принцип вычисления кодов, а
-              также исправление ошибок в блоках информации рассматривать не будем, это тема отдельной статьи. Корректирующие ошибки коды Рида-Соломона (RS) записываются после всех информационных данных. Это очень упрощает задачу непосредственного
-              чтения
-              информации: можно просто считать данные, не трогая коды. Как показывает практика, обычно бОльшую часть QR -матрицы занимают корректирующие RS-коды.
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-right">
-            <p class="lead">
-              По стандарту, данные с RS-кодами перед записью в картинку «перемешиваются». Для этих целей используют специальные маски. Существует 8 алгоритмов, среди которых выбирается наилучший. Критерии выбора основаны на системе штрафов, о которых
-              можно также почитать в спецификации.
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              «Перемешанные» данные записываются в особой последовательности на шаблонную картинку, куда добавляется техническая информация для декодирующих устройств. Исходя из описанного алгоритма, можно выделить схему извлечения данных из QR кода:
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="text-center col-12" data-aos="zoom-in">
-            <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/1f73c119/950fcd14/64d97ce8/1db4693d.png">
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              Здесь зелёным фломастером подчёркнуты пункты, которые нужно будет выполнить при непосредственном чтении кода. Остальные пункты можно опустить ввиду того, что считывание производит человек.
-            </p>
-          </div>
-        </div>
-
-        <h2>Шаг 0. QR код</h2>
-
-        <div class="row featurette">
-          <div class="text-center col-12" data-aos="zoom-in">
-            <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/c414d5a9/8bfbe1ca/77b1f590/94219f40.png">
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              Взглянув на картинки, можно заметить несколько отчётливых областей. Эти области используются для детектирования QR кода. Эти данные не представляют интереса с точки зрения записанной информации, но их нужно вычеркнуть или просто
-              запомнить
-              их расположение, чтобы они не мешали. Всё остальное поле кода несёт уже полезную информацию. Её можно разбить на две части: системная информация и данные. Также существует информация о версии кода. От версии кода зависит максимальный
-              объём
-              данных, которые могут быть записаны в код. При повышении версии – добавляются специальные блоки, например как здесь:
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="text-center col-12" data-aos="zoom-in">
-            <img class="col-6 col-md-4" src="https://habrastorage.org/storage1/4d276a0a/882bc225/92a87c4e/9322f0d7.png">
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-right">
-            <p class="lead">
-              По ним можно сориентироваться и понять какая версия QR перед вами. Коды высоких версий обычно также нецелесообразно считывать вручную.
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              Размещение системной информации показано на рисунке:
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="text-center col-12" data-aos="zoom-in">
-            <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/dec67f98/73e19a16/9c318495/8e4c5938.png">
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              Системная информация дублируется, что позволяет значительно понизить вероятность возникновения ошибок при детектировании кода и считывании. Системная информация – это 15 бит данных, среди которых первые 5 — это полезная информация, а
-              остальные 10 — это <a
-                href="http://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D0%B4_%D0%91%D0%BE%D1%83%D0%B7%D0%B0_%E2%80%94_%D0%A7%D0%BE%D1%83%D0%B4%D1%85%D1%83%D1%80%D0%B8_%E2%80%94_%D0%A5%D0%BE%D0%BA%D0%B2%D0%B8%D0%BD%D0%B3%D0%B5%D0%BC%D0%B0"
-                title="О Кодах">BCH</a>(15,5) код, который позволяет исправлять ошибки в системных данных. К классу BCH кодов относят и RS коды. Обратите внимание, что на рисунке две полоски по 15 бит не пересекаются.
-            </p>
-          </div>
-        </div>
-
-        <h2>Шаг 1. Чтение 5 бит системной информации</h2>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              Как уже говорилось, интерес представляют только первые 5 бит. Из которых 2 бита показывают уровень коррекции ошибок, а остальные 3 бита показывают какая маска из доступных 8 применяется к данным. В рассматриваемых QR кодах системная
-              информация содержит:
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="text-center col-12" data-aos="zoom-in">
-            <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/7c389813/79671f25/c18a6fda/2384e8d4.png">
-          </div>
-        </div>
-
-        <h2>Шаг 2. Маска для системной информации</h2>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-right">
-            <p class="lead">
-              Кроме уже озвученных схем зашиты системной информации, вдобавок, используется статическая маска, которая применяется к любой системной информации. Она имеет вид: <strong>101010000010010</strong>. Так как имеет интерес только первые 5
-              бит,
-              то маску можно сократить и легко запомнить: <strong>10101</strong> (десять — сто один). После применения операции «исключающего или» (xor) получаем информацию.
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-right">
-            <p class="lead">
-              Возможные уровни коррекции ошибок:
-            </p>
-          </div>
-        </div>
-
-        <table class="table table-bordered" data-aos="fade-left">
-          <tbody>
-            <tr>
-              <td>L</td>
-              <td>01</td>
-            </tr>
-            <tr>
-              <td>M</td>
-              <td>00</td>
-            </tr>
-            <tr>
-              <td>Q</td>
-              <td>11</td>
-            </tr>
-            <tr>
-              <td>H</td>
-              <td>10</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-right">
-            <p class="lead">
-              Возможные маски:
-            </p>
-          </div>
-        </div>
-
-        <table class="table table-bordered" data-aos="fade-left">
-          <tbody>
-            <tr>
-              <td>000</td>
-              <td>(i + j) mod 2 = 0</td>
-            </tr>
-            <tr>
-              <td>001</td>
-              <td>i mod 2 = 0</td>
-            </tr>
-            <tr>
-              <td>010</td>
-              <td>j mod 3 = 0</td>
-            </tr>
-            <tr>
-              <td>011</td>
-              <td>(i + j) mod 3 = 0</td>
-            </tr>
-            <tr>
-              <td>100</td>
-              <td>((i div 2) + (j div 3)) mod 2 = 0</td>
-            </tr>
-            <tr>
-              <td>101</td>
-              <td>(i j) mod 2 + (i j) mod 3 = 0</td>
-            </tr>
-            <tr>
-              <td>110</td>
-              <td>((i j) mod 2 + (i j) mod 3) mod 2 = 0</td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>((i+j) mod 2 + (i j) mod 3) mod 2 = 0</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="row featurette">
-          <div class="text-center col-12" data-aos="zoom-in">
-            <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/5f347c18/70403cf2/054fe6b9/53dc7f2b.png">
-          </div>
-        </div>
-
-        <h2>Шаг 3. Чтение заголовка данных</h2>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              Чтобы понять с какими данными предстоит иметь дело, необходимо изначально прочитать 4-х битный заголовок, который содержит в себе информацию о режиме. Специфика чтения данных изображена на картинке:
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="text-center col-12" data-aos="zoom-in">
-            <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/a34f70fd/0587114f/dcb57933/5ae9bd2f.png">
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              Список возможных режимов:
-            </p>
-          </div>
-        </div>
-
-        <table class="table table-bordered" data-aos="fade-right">
-          <tbody>
-            <tr>
-              <td><a href="http://habrahabr.ru/blogs/personal/63913/" title="QR-Статья 1: Базовые характеристики QR">ECI</a></td>
-              <td>0111</td>
-            </tr>
-            <tr>
-              <td>Числовые</td>
-              <td>0001</td>
-            </tr>
-            <tr>
-              <td>Буквенно-числовые</td>
-              <td>0010</td>
-            </tr>
-            <tr>
-              <td>8-битный (байтный)</td>
-              <td>0100</td>
-            </tr>
-            <tr>
-              <td>Kanji</td>
-              <td>1000</td>
-            </tr>
-            <tr>
-              <td><a href="http://habrahabr.ru/blogs/personal/63913/" title="QR-Статья 1: Базовые характеристики QR">Структурированное дополнение</a></td>
-              <td>0011</td>
-            </tr>
-            <tr>
-              <td>FNC1</td>
-              <td>0101 (1-я позиция)<br>
-                1001 (2-я позиция)</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <h2>Шаг 4. Применение маски к заголовку</h2>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              После извлечения 4-х бит, описывающих режим, необходимо к ним применить маску.
-              В нашем случае для двух кодов используются разные маски. Маска определяется выражением, приведённым в таблице выше. Если данное выражение сводится к TRUE (верное) для бита с координатами <em>(i,j)</em>, то бит инвертируется, иначе всё
-              остаётся без изменений. Начало координат в левом верхнем углу <em>(0,0)</em>. Взглянув на выражения, можно заметить в них закономерности. Для рассматриваемых QR кодов, маски будут выглядеть так:
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="text-center col-12" data-aos="zoom-in">
-            <img class="col-6 col-md-4" src="https://habrastorage.org/storage1/1a526ee0/b5ccb431/e99cd85f/11afb7a6.png">
-          </div>
-        </div>
-
-        <div class="row featurette mt-3">
-          <div class="text-center col-12" data-aos="zoom-in">
-            <img class="col-6 col-md-4" src="https://habrastorage.org/storage1/ad8216d4/9e0a65dd/0bc0a9c3/68a9fd0c.png">
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              Получим режимы:
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="text-center col-12" data-aos="zoom-in">
-            <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/2a68f619/d52d3122/328487f9/9e08b968.png">
-          </div>
-        </div>
-
-        <h2>Шаг 5. Чтение данных</h2>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              После получения данных о режиме можно приступать к чтению информации. Надо оговорить, что наиболее интересно считывать числовые и буквенно-числовые данные, так как они легко интерпретируются. Но также не стоит бояться 8-битных. Это
-              может
-              быть также легко интерпретируемая информация. Например, многие онлайн генераторы QR текст кодируют в этом режиме, используя <a href="http://ru.wikipedia.org/wiki/ASCII" title="Статья на Wilipedia">ASCII</a>. Ещё одна причина, почему
-              следует
-              изначально прочитать режим, это то, что от него зависит количество пакетов данных. Которая также зависит и от версии кода. Для версий с первой по девятую длины блоков для более читабельных режимов:
-            </p>
-          </div>
-        </div>
-
-        <table class="table table-bordered" data-aos="fade-right">
-          <tbody>
-            <tr>
-              <td>Числовые</td>
-              <td>10 бит / 4 бита</td>
-            </tr>
-            <tr>
-              <td>Буквенно-числовые</td>
-              <td>9 бит</td>
-            </tr>
-            <tr>
-              <td>8-битный (байтный)</td>
-              <td>8 бит</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              Первый блок после указателя режима — это количество символов. Для числового режима количество закодировано в 10 следующих битах, а для 8-битного режима в 8 битах (прошу прощения за тавтологию).
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="text-center col-12" data-aos="zoom-in">
-            <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/0de61aa3/39983b11/064742f8/c79c962e.png">
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              На рисунке видно, что в левом QR коде, как и отмечалось, записана цифра 5. Это видно по указателю количества символов и последующим после него 4 битам. В числовом режиме наряду с 10-битными блоками используются 4-х битные блоки для
-              экономии
-              места, если в 10-битном объёме нет необходимости. В правом коде зашифровано 4 символа. На данный момент неизвестно что зашифровано в нём. Поэтому необходимо перейти к чтению следующего столбца для извлечения всех 4-х блоков информации.
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="text-center col-12" data-aos="zoom-in">
-            <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/5c272cb3/86a03fbc/c0aa146a/7f8d0ccf.png">
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-left">
-            <p class="lead">
-              На рисунке видно, все 4 пакета представляют собой коды ASCII латинских букв, образующие слово «habr»
-            </p>
-          </div>
-        </div>
-
-        <div class="row featurette">
-          <div class="col-md-12" data-aos="fade-right">
-            <p class="lead">
-              Естественно наилучшим способом остаётся достать телефон из кармана и, наведя камеру на QR-картинку, считать всю информацию. Однако в экстренных случаях может пригодиться и описанная методика. Конечно, в голове не удержишь все указатели
-              режимов и типов масок, а также ASCII символы, но популярные комбинации запомнить (хотя бы те, что рассмотрены в статье) под силу.
-            </p>
-          </div>
-        </div>
-
-        <h2>Спецификация:</h2>
-        <a href="http://shop.bsigroup.com/en/ProductDetail/?pid=000000000030201420" title="Купить спецификацию">BS ISO/IEC 18004:2006. Information technology. Automatic identification and data capture techniques. QR Code 2005 bar code symbology
-          specification. London: BSI. 2007. p. 126. ISBN 978-0-580-67368-9.</a><br>
+  <div class="row featurette">
+    <div class="col-md-7 order-md-2" data-aos="fade-left">
+      <p class="lead">
+        Иногда возникают такие ситуации, когда нужно прочитать QR
+        код, а смартфона под рукой нет. Что же делать? В голову приходит лишь попробовать прочитать вручную. Если кто-нибудь сталкивался с такими ситуациями или кому просто интересно как же читается QR код машинами, то данная статья поможет вам
+        разобраться в этой проблеме. <br>
         <br>
-        <p class="mt-5">Источник: <a href="https://habr.com/ru/post/127197/" target="_blank">habr.com/ru/post/127197</a></p>
-      </div>
-
+        В статье рассмотрены базовые особенности QR кодов и методика дешифрирования информации без использования вычислительных машин.<br>
+      </p>
     </div>
-  </article>
+    <div class="col-md-5" data-aos="fade-right">
+      <img src="https://habrastorage.org/storage1/82ec194d/82c86917/c2d44992/6a420214.png">
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-right">
+      <p class="lead">
+        Для тех, кто не в курсе что такое <a href="http://www.denso-wave.com/qrcode/index-e.html" title="Официальный сайт">QR код</a>, есть <a href="http://en.wikipedia.org/wiki/QR_code" title="Статья о QR коде">неплохая статья</a> в английской
+        Wikipedia. Также можно почитать <a href="http://habrahabr.ru/blogs/infolust/" title="Блок INFOLUST [Хабрахабр]">тематический блог</a> на Хабре и несколько хороших статей по смежной тематике, которые можно найти <a
+          href="http://habrahabr.ru/search/page4/?q=QR+%D0%BA%D0%BE%D0%B4" title="Искать статьи о QR коде">поиском</a>.
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        Решение задачи непосредственного чтения информации с QR-картинки рассмотрим на примере двух кодов. Информация была закодирована в online-генераторе <a href="http://www.qrcoder.ru/">QR Coder.ru</a>.<br>
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="text-center col-12" data-aos="zoom-in">
+      <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/abaf33ae/39f8bd1e/3d3a8167/03f8ac1a.png">
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        Чтобы понять, как извлечь данные из кода, нужно разобраться в алгоритме. Существует несколько стандартов в семействе QR кодов, с их базовыми принципами можно ознакомиться в спецификациях. Кратко поясню: данные, которые необходимо
+        закодировать, разбиваются на блоки в зависимости от режима кодирования. К разбитым по блокам данным прибавляется заголовок, указывающий на режим и количество блоков. Существуют и такие режимы, в которых используется более сложная
+        структура
+        размещения информации. Данные режимы рассматривать не будем ввиду того, что извлекать вручную из них информацию нецелесообразно. Однако, основываясь на тех принципах, которые описаны ниже, можно адаптироваться и к этим режимам.
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        На случай некорректного чтения данных, в QR применяются специальные коды, которые способны исправить недочёты при чтении. Это так называемые <a
+          href="http://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D0%B4_%D0%A0%D0%B8%D0%B4%D0%B0_%E2%80%94_%D0%A1%D0%BE%D0%BB%D0%BE%D0%BC%D0%BE%D0%BD%D0%B0" title="О кодах Рида-Соломона на Wikipedia">коды Рида-Соломона</a>. Принцип вычисления кодов, а
+        также исправление ошибок в блоках информации рассматривать не будем, это тема отдельной статьи. Корректирующие ошибки коды Рида-Соломона (RS) записываются после всех информационных данных. Это очень упрощает задачу непосредственного
+        чтения
+        информации: можно просто считать данные, не трогая коды. Как показывает практика, обычно бОльшую часть QR -матрицы занимают корректирующие RS-коды.
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-right">
+      <p class="lead">
+        По стандарту, данные с RS-кодами перед записью в картинку «перемешиваются». Для этих целей используют специальные маски. Существует 8 алгоритмов, среди которых выбирается наилучший. Критерии выбора основаны на системе штрафов, о которых
+        можно также почитать в спецификации.
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        «Перемешанные» данные записываются в особой последовательности на шаблонную картинку, куда добавляется техническая информация для декодирующих устройств. Исходя из описанного алгоритма, можно выделить схему извлечения данных из QR кода:
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="text-center col-12" data-aos="zoom-in">
+      <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/1f73c119/950fcd14/64d97ce8/1db4693d.png">
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        Здесь зелёным фломастером подчёркнуты пункты, которые нужно будет выполнить при непосредственном чтении кода. Остальные пункты можно опустить ввиду того, что считывание производит человек.
+      </p>
+    </div>
+  </div>
+
+  <h2>Шаг 0. QR код</h2>
+
+  <div class="row featurette">
+    <div class="text-center col-12" data-aos="zoom-in">
+      <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/c414d5a9/8bfbe1ca/77b1f590/94219f40.png">
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        Взглянув на картинки, можно заметить несколько отчётливых областей. Эти области используются для детектирования QR кода. Эти данные не представляют интереса с точки зрения записанной информации, но их нужно вычеркнуть или просто
+        запомнить
+        их расположение, чтобы они не мешали. Всё остальное поле кода несёт уже полезную информацию. Её можно разбить на две части: системная информация и данные. Также существует информация о версии кода. От версии кода зависит максимальный
+        объём
+        данных, которые могут быть записаны в код. При повышении версии – добавляются специальные блоки, например как здесь:
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="text-center col-12" data-aos="zoom-in">
+      <img class="col-6 col-md-4" src="https://habrastorage.org/storage1/4d276a0a/882bc225/92a87c4e/9322f0d7.png">
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-right">
+      <p class="lead">
+        По ним можно сориентироваться и понять какая версия QR перед вами. Коды высоких версий обычно также нецелесообразно считывать вручную.
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        Размещение системной информации показано на рисунке:
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="text-center col-12" data-aos="zoom-in">
+      <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/dec67f98/73e19a16/9c318495/8e4c5938.png">
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        Системная информация дублируется, что позволяет значительно понизить вероятность возникновения ошибок при детектировании кода и считывании. Системная информация – это 15 бит данных, среди которых первые 5 — это полезная информация, а
+        остальные 10 — это <a href="http://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D0%B4_%D0%91%D0%BE%D1%83%D0%B7%D0%B0_%E2%80%94_%D0%A7%D0%BE%D1%83%D0%B4%D1%85%D1%83%D1%80%D0%B8_%E2%80%94_%D0%A5%D0%BE%D0%BA%D0%B2%D0%B8%D0%BD%D0%B3%D0%B5%D0%BC%D0%B0"
+          title="О Кодах">BCH</a>(15,5) код, который позволяет исправлять ошибки в системных данных. К классу BCH кодов относят и RS коды. Обратите внимание, что на рисунке две полоски по 15 бит не пересекаются.
+      </p>
+    </div>
+  </div>
+
+  <h2>Шаг 1. Чтение 5 бит системной информации</h2>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        Как уже говорилось, интерес представляют только первые 5 бит. Из которых 2 бита показывают уровень коррекции ошибок, а остальные 3 бита показывают какая маска из доступных 8 применяется к данным. В рассматриваемых QR кодах системная
+        информация содержит:
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="text-center col-12" data-aos="zoom-in">
+      <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/7c389813/79671f25/c18a6fda/2384e8d4.png">
+    </div>
+  </div>
+
+  <h2>Шаг 2. Маска для системной информации</h2>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-right">
+      <p class="lead">
+        Кроме уже озвученных схем зашиты системной информации, вдобавок, используется статическая маска, которая применяется к любой системной информации. Она имеет вид: <strong>101010000010010</strong>. Так как имеет интерес только первые 5
+        бит,
+        то маску можно сократить и легко запомнить: <strong>10101</strong> (десять — сто один). После применения операции «исключающего или» (xor) получаем информацию.
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-right">
+      <p class="lead">
+        Возможные уровни коррекции ошибок:
+      </p>
+    </div>
+  </div>
+
+  <table class="table table-bordered" data-aos="fade-left">
+    <tbody>
+      <tr>
+        <td>L</td>
+        <td>01</td>
+      </tr>
+      <tr>
+        <td>M</td>
+        <td>00</td>
+      </tr>
+      <tr>
+        <td>Q</td>
+        <td>11</td>
+      </tr>
+      <tr>
+        <td>H</td>
+        <td>10</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-right">
+      <p class="lead">
+        Возможные маски:
+      </p>
+    </div>
+  </div>
+
+  <table class="table table-bordered" data-aos="fade-left">
+    <tbody>
+      <tr>
+        <td>000</td>
+        <td>(i + j) mod 2 = 0</td>
+      </tr>
+      <tr>
+        <td>001</td>
+        <td>i mod 2 = 0</td>
+      </tr>
+      <tr>
+        <td>010</td>
+        <td>j mod 3 = 0</td>
+      </tr>
+      <tr>
+        <td>011</td>
+        <td>(i + j) mod 3 = 0</td>
+      </tr>
+      <tr>
+        <td>100</td>
+        <td>((i div 2) + (j div 3)) mod 2 = 0</td>
+      </tr>
+      <tr>
+        <td>101</td>
+        <td>(i j) mod 2 + (i j) mod 3 = 0</td>
+      </tr>
+      <tr>
+        <td>110</td>
+        <td>((i j) mod 2 + (i j) mod 3) mod 2 = 0</td>
+      </tr>
+      <tr>
+        <td>111</td>
+        <td>((i+j) mod 2 + (i j) mod 3) mod 2 = 0</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="row featurette">
+    <div class="text-center col-12" data-aos="zoom-in">
+      <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/5f347c18/70403cf2/054fe6b9/53dc7f2b.png">
+    </div>
+  </div>
+
+  <h2>Шаг 3. Чтение заголовка данных</h2>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        Чтобы понять с какими данными предстоит иметь дело, необходимо изначально прочитать 4-х битный заголовок, который содержит в себе информацию о режиме. Специфика чтения данных изображена на картинке:
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="text-center col-12" data-aos="zoom-in">
+      <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/a34f70fd/0587114f/dcb57933/5ae9bd2f.png">
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        Список возможных режимов:
+      </p>
+    </div>
+  </div>
+
+  <table class="table table-bordered" data-aos="fade-right">
+    <tbody>
+      <tr>
+        <td><a href="http://habrahabr.ru/blogs/personal/63913/" title="QR-Статья 1: Базовые характеристики QR">ECI</a></td>
+        <td>0111</td>
+      </tr>
+      <tr>
+        <td>Числовые</td>
+        <td>0001</td>
+      </tr>
+      <tr>
+        <td>Буквенно-числовые</td>
+        <td>0010</td>
+      </tr>
+      <tr>
+        <td>8-битный (байтный)</td>
+        <td>0100</td>
+      </tr>
+      <tr>
+        <td>Kanji</td>
+        <td>1000</td>
+      </tr>
+      <tr>
+        <td><a href="http://habrahabr.ru/blogs/personal/63913/" title="QR-Статья 1: Базовые характеристики QR">Структурированное дополнение</a></td>
+        <td>0011</td>
+      </tr>
+      <tr>
+        <td>FNC1</td>
+        <td>0101 (1-я позиция)<br>
+          1001 (2-я позиция)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Шаг 4. Применение маски к заголовку</h2>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        После извлечения 4-х бит, описывающих режим, необходимо к ним применить маску.
+        В нашем случае для двух кодов используются разные маски. Маска определяется выражением, приведённым в таблице выше. Если данное выражение сводится к TRUE (верное) для бита с координатами <em>(i,j)</em>, то бит инвертируется, иначе всё
+        остаётся без изменений. Начало координат в левом верхнем углу <em>(0,0)</em>. Взглянув на выражения, можно заметить в них закономерности. Для рассматриваемых QR кодов, маски будут выглядеть так:
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="text-center col-12" data-aos="zoom-in">
+      <img class="col-6 col-md-4" src="https://habrastorage.org/storage1/1a526ee0/b5ccb431/e99cd85f/11afb7a6.png">
+    </div>
+  </div>
+
+  <div class="row featurette mt-3">
+    <div class="text-center col-12" data-aos="zoom-in">
+      <img class="col-6 col-md-4" src="https://habrastorage.org/storage1/ad8216d4/9e0a65dd/0bc0a9c3/68a9fd0c.png">
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        Получим режимы:
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="text-center col-12" data-aos="zoom-in">
+      <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/2a68f619/d52d3122/328487f9/9e08b968.png">
+    </div>
+  </div>
+
+  <h2>Шаг 5. Чтение данных</h2>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        После получения данных о режиме можно приступать к чтению информации. Надо оговорить, что наиболее интересно считывать числовые и буквенно-числовые данные, так как они легко интерпретируются. Но также не стоит бояться 8-битных. Это
+        может
+        быть также легко интерпретируемая информация. Например, многие онлайн генераторы QR текст кодируют в этом режиме, используя <a href="http://ru.wikipedia.org/wiki/ASCII" title="Статья на Wilipedia">ASCII</a>. Ещё одна причина, почему
+        следует
+        изначально прочитать режим, это то, что от него зависит количество пакетов данных. Которая также зависит и от версии кода. Для версий с первой по девятую длины блоков для более читабельных режимов:
+      </p>
+    </div>
+  </div>
+
+  <table class="table table-bordered" data-aos="fade-right">
+    <tbody>
+      <tr>
+        <td>Числовые</td>
+        <td>10 бит / 4 бита</td>
+      </tr>
+      <tr>
+        <td>Буквенно-числовые</td>
+        <td>9 бит</td>
+      </tr>
+      <tr>
+        <td>8-битный (байтный)</td>
+        <td>8 бит</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        Первый блок после указателя режима — это количество символов. Для числового режима количество закодировано в 10 следующих битах, а для 8-битного режима в 8 битах (прошу прощения за тавтологию).
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="text-center col-12" data-aos="zoom-in">
+      <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/0de61aa3/39983b11/064742f8/c79c962e.png">
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        На рисунке видно, что в левом QR коде, как и отмечалось, записана цифра 5. Это видно по указателю количества символов и последующим после него 4 битам. В числовом режиме наряду с 10-битными блоками используются 4-х битные блоки для
+        экономии
+        места, если в 10-битном объёме нет необходимости. В правом коде зашифровано 4 символа. На данный момент неизвестно что зашифровано в нём. Поэтому необходимо перейти к чтению следующего столбца для извлечения всех 4-х блоков информации.
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="text-center col-12" data-aos="zoom-in">
+      <img class="col-12 col-md-8" src="https://habrastorage.org/storage1/5c272cb3/86a03fbc/c0aa146a/7f8d0ccf.png">
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-left">
+      <p class="lead">
+        На рисунке видно, все 4 пакета представляют собой коды ASCII латинских букв, образующие слово «habr»
+      </p>
+    </div>
+  </div>
+
+  <div class="row featurette">
+    <div class="col-md-12" data-aos="fade-right">
+      <p class="lead">
+        Естественно наилучшим способом остаётся достать телефон из кармана и, наведя камеру на QR-картинку, считать всю информацию. Однако в экстренных случаях может пригодиться и описанная методика. Конечно, в голове не удержишь все указатели
+        режимов и типов масок, а также ASCII символы, но популярные комбинации запомнить (хотя бы те, что рассмотрены в статье) под силу.
+      </p>
+    </div>
+  </div>
+
+  <h2>Спецификация:</h2>
+  <a href="http://shop.bsigroup.com/en/ProductDetail/?pid=000000000030201420" title="Купить спецификацию">BS ISO/IEC 18004:2006. Information technology. Automatic identification and data capture techniques. QR Code 2005 bar code symbology
+    specification. London: BSI. 2007. p. 126. ISBN 978-0-580-67368-9.</a><br>
+  <br>
+  <p class="mt-5">Источник: <a href="https://habr.com/ru/post/127197/" target="_blank">habr.com/ru/post/127197</a></p>
+
+
 </div>
 {% endblock %}

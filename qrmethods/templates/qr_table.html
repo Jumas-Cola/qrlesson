@@ -4,10 +4,6 @@
 
 {% block optional_css %}
 <style>
-  table {
-    margin: 10px;
-  }
-
   td:after {
     content: '';
     display: block;
@@ -27,7 +23,7 @@
 
   td.active {
     background: black;
-    border: none;
+    border: 1px solid black;
   }
 </style>
 {% endblock %}
@@ -46,11 +42,11 @@
         row.appendChild(document.createElement('td'));
         if ((([0, 6, cells - 7, cells - 1].includes(i) && (j < 7 || j > cells - 7)) || ((i < 7 || i > rows - 7) && [0, 6, rows - 7, rows - 1].includes(j))) && (!(i > 7 && j > 7))) {
           row.cells[j].style.background = 'black';
-          row.cells[j].style.border = 'none';
+          row.cells[j].style.border = '1px solid black';
         }
         if ((1 < i && i < 5 && 1 < j && j < 5) || (rows - 6 < i && i < rows - 2 && 1 < j && j < 5) || (cells - 6 < j && j < cells - 2 && 1 < i && i < 5)) {
           row.cells[j].style.background = 'black';
-          row.cells[j].style.border = 'none';
+          row.cells[j].style.border = '1px solid black';
         }
       }
       table.appendChild(row);
@@ -75,7 +71,7 @@
   }
 
   function toggle(e) {
-    if (isToggling === false) {
+    if (e.which != 1 || isToggling === false) {
       return;
     }
 
@@ -94,6 +90,9 @@
 
   function plotField() {
     let dim = document.querySelector('#dim_field');
+    if (dim.value > 41 || dim.value < 21) {
+      return;
+    }
     let tablearea = document.getElementById('tablearea');
     tablearea.innerHTML = '';
     populateTable(tablearea, dim.value, dim.value);
@@ -124,7 +123,7 @@
   </form>
   <div class="row">
     <div id="qrcode" class="col-12 mt-3 mb-3 d-flex justify-content-center">
-      <table id="tablearea" cellspacing="0" cellpadding="0" class="col-md-6"></table>
+      <table id="tablearea" cellspacing="0" cellpadding="0" width="50%"></table>
     </div>
   </div>
 </div>

@@ -112,17 +112,18 @@ class MethodListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(section_list=LessonPart.objects.all(), **kwargs)
+        context['section'] = LessonPart.objects.filter(
+            url=self.kwargs['section'])[0]
         return context
 
 
 class MethodDetailView(generic.DetailView):
     model = TeachingMethod
     template_name = 'qrmethods/method_detail.html'
-    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(section_list=LessonPart.objects.all(), **kwargs)
-        context = super().get_context_data(next=self.request.GET['next'], **kwargs)
+        context['next'] = self.request.GET['next']
         return context
 
     # def get_object(self, queryset=None):
@@ -149,7 +150,8 @@ def download(request):
 
     file_path = os.path.realpath(docx_title)
     data = open(file_path, "rb").read()
-    response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    response = HttpResponse(
+        data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
     response['Content-Disposition'] = 'attachment; filename=' + docx_title
     response['Content-Length'] = os.path.getsize(file_path)
     os.remove(file_path)
