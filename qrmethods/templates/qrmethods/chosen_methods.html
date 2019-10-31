@@ -16,7 +16,7 @@
         <p class="card-text">{{ method.get_preview }}...</p>
         <section class="method_id" hidden="true">{{ method.id }}</section>
         <div class="btn-group">
-          <a href="{% url 'method_detail' method.id %}?next={{ request.path }}" class="btn btn-sm btn-outline-secondary card-link">Подробнее</a>
+          <a href="{% url 'method_detail' method.id %}?next={{ request.path }}" onclick="remove_method('')" class="btn btn-sm btn-outline-secondary card-link">Подробнее</a>
           <button onclick="remove_method('{{ method.id }}')" class="btn btn-sm btn-secondary card-link">Удалить из списка</button>
         </div>
       </div>
