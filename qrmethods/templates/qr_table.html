@@ -116,7 +116,15 @@
   <form>
     <div class="form-group">
       <label for="text">Нарисовать QR-код</label>
-      <input type="number" class="form-control" id="dim_field" aria-describedby="textHelp" min="21" max="41" value="21">
+      <!-- <input type="number" class="form-control" id="dim_field" aria-describedby="textHelp" min="21" max="41" value="21"> -->
+      <select id="dim_field" aria-describedby="textHelp" class="custom-select">
+        <option selected>Длина закодированного слова:</option>
+        <option value="21">До 5 знаков</option>
+        <option value="25">От 5 до 12 знаков</option>
+        <option value="29">От 12 до 22 знаков</option>
+        <option value="33">От 22 до 32 знаков</option>
+        <option value="37">От 32 до 42 знаков</option>
+      </select>
       <small id="emailHelp" class="form-text text-muted">Введите размер поля.</small>
     </div>
     <button id="plot_field_btn" type="button" class="btn btn-primary">Построить поле</button>
