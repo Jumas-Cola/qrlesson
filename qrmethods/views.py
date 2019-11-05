@@ -83,7 +83,7 @@ def chosen_methods(request):
 
 
 def upd_session(request, pk):
-    if ('methods' in request.session):
+    if 'methods' in request.session:
         if (str(pk) not in request.session['methods']):
             request.session['methods'] += [pk]
     else:
@@ -123,6 +123,8 @@ class MethodDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(section_list=LessonPart.objects.all(), **kwargs)
+        if 'methods' not in self.request.session:
+            self.request.session['methods'] = []
         context['methods'] = self.request.session['methods']
         if 'next' in self.request.GET:
             context['next'] = self.request.GET['next']
