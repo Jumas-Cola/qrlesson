@@ -112,6 +112,9 @@ class MethodListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(section_list=LessonPart.objects.all(), **kwargs)
+        if 'methods' not in self.request.session:
+            self.request.session['methods'] = []
+        context['methods'] = self.request.session['methods']
         context['section'] = LessonPart.objects.filter(
             url=self.kwargs['section'])[0]
         return context
