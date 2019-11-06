@@ -43,7 +43,7 @@ class TeachingMethod(models.Model):
         return preview_string
 
     def get_reading_time(self):
-        return len(self.description) // 120
+        return len(self.description.replace(' ', '')) // 120
 
     def get_absolute_url(self):
         return reverse('method_detail', args=[str(self.id)])

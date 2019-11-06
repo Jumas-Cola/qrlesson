@@ -102,7 +102,7 @@ def rmv_from_session(request):
 class MethodListView(generic.ListView):
     model = TeachingMethod
     template_name = 'qrmethods/method_list.html'
-    paginate_by = 10
+    paginate_by = 9
 
     def get_queryset(self):
         qs = super().get_queryset()
